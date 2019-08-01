@@ -7,10 +7,11 @@ export const WEBCAM_FUNCTIONS = {
             ? { height: availableHeight, width: availableHeight * wantedRatio }
             : { height: availableWidth / wantedRatio, width: availableWidth };
     },
-    setupWebcam: async (elementId, width, height) => {
+    setupWebcam: async (elementId, width, height, successCallback) => {
         const videoElement = document.getElementById(elementId);
         if (navigator.mediaDevices.getUserMedia) {
             videoElement.srcObject = await navigator.mediaDevices.getUserMedia({ video: { height, width } });
+            successCallback();
         }
         // else display 'No webcam detected'
     }
