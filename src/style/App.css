@@ -5,3 +5,7 @@
 .absElement {
     position: absolute;
 }
+
+.centerAsset {
+    transform: translate(-50%, -50%);
+}
