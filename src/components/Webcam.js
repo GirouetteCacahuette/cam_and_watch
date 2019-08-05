@@ -5,17 +5,28 @@ import { WEBCAM_FUNCTIONS } from '../config/Webcam/functions.webcam.config';
 import { getPose } from '../config/Posenet/functions.posenet.config';
 import { useDispatch, useSelector } from 'react-redux';
 import * as posenetActions from '../actions/posenet.actions';
+import { updateWebcamSize } from '../actions/webcam.actions';
 
 const webcamElementId = WEBCAM_CONSTANTS.WEBCAM_ELEMENT_ID;
-const webcamWidth = WEBCAM_CONSTANTS.WEBCAM_SIZE.width;
-const webcamHeight = WEBCAM_CONSTANTS.WEBCAM_SIZE.height;
 
 export const Webcam = () => {
     const [net, setNet] = useState(null);
     const [posenetReady, setPosenetReady] = useState(false);
     const [webcamReady, setWebcamReady] = useState(false);
     const pose = useSelector(state => state.camAndWatchReducer.posenetPose);
+    const webcamSize = useSelector(state => state.camAndWatchReducer.webcamSize);
     const dispatch = useDispatch();
+
+    const setupWebcam = async () => {
+        const newWebcamSize = WEBCAM_FUNCTIONS.getWebcamSize(16 / 9, { width: 1920, height: 1080 });
+        await dispatch(updateWebcamSize(newWebcamSize));
+        const videoElement = document.getElementById(webcamElementId);
+        if (navigator.mediaDevices.getUserMedia) {
+            videoElement.srcObject = await navigator.mediaDevices.getUserMedia({ video: newWebcamSize });
+            setWebcamReady(true);
+        }
+        // else display 'No webcam detected'
+    };
 
     const setupPosenet = async () => {
         setNet(await posenet.load());
@@ -23,7 +34,7 @@ export const Webcam = () => {
     };
 
     useEffect(() => {
-        WEBCAM_FUNCTIONS.setupWebcam(webcamElementId, webcamWidth, webcamHeight, () => setWebcamReady(true));
+        setupWebcam();
         setupPosenet();
     }, []);
 
@@ -40,12 +51,16 @@ export const Webcam = () => {
     }, [pose, posenetReady, webcamReady]);
 
     return (
-        <video
-            style={{ WebkitTransform: 'scaleX(-1)', transform: 'scaleX(-1)' }}
-            id={webcamElementId}
-            autoPlay={true}
-            width={webcamWidth}
-            height={webcamHeight}
-        />
+        <>
+            {webcamSize.width !== null ? (
+                <video
+                    style={{ WebkitTransform: 'scaleX(-1)', transform: 'scaleX(-1)' }}
+                    id={webcamElementId}
+                    autoPlay={true}
+                    width={webcamSize.width}
+                    height={webcamSize.height}
+                />
+            ) : null}
+        </>
     );
 };

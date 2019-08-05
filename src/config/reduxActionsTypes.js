@@ -1,1 +1,2 @@
 export const UPDATE_POSE = 'UPDATE_POSE';
+export const UPDATE_WEBCAM_SIZE = 'UPDATE_WEBCAM_SIZE';
