@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const FireSvg = ({ height }) => {
+export const FireSvg = ({ height, top }) => {
     return (
         <svg
             id="Capa_1"
@@ -9,7 +9,7 @@ export const FireSvg = ({ height }) => {
             xmlnsXlink="http://www.w3.org/1999/xlink"
             height={height}
             viewBox="0 0 512 512"
-            style={{ enableBackground: '0 0 512 512' }}
+            style={{ enableBackground: '0 0 512 512', left: 0, top }}
             //xml:space="preserve"
         >
             <path

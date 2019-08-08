@@ -1,13 +1,14 @@
 import React from 'react';
 
-export const FallingManSvg = ({ width }) => {
+export const FallingManSvg = ({ width, top, left }) => {
     return (
         <svg
             id="svg"
-            className="absElement"
+            className="centerAsset absElement"
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
             width={width}
+            style={{ top, left }}
             viewBox="0, 0, 400,345.45454545454544"
         >
             <g id="svgg">
