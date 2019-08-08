@@ -1,8 +1,11 @@
-import { UPDATE_POSE, UPDATE_WEBCAM_SIZE } from '../config/reduxActionsTypes';
+import { UPDATE_POSE, UPDATE_WEBCAM_SIZE, UPDATE_CURRENT_FALLING_MEN_INDEXES } from '../config/reduxActionsTypes';
 
 const initialState = {
     posenetPose: {},
-    webcamSize: { width: null, height: null }
+    webcamSize: { width: null, height: null },
+    fireGame: {
+        currentFallingMenIndexes: []
+    }
 };
 
 export const camAndWatchReducer = (state = initialState, action) => {
@@ -10,6 +13,8 @@ export const camAndWatchReducer = (state = initialState, action) => {
         case UPDATE_POSE:
         case UPDATE_WEBCAM_SIZE:
             return { ...state, ...action.payload };
+        case UPDATE_CURRENT_FALLING_MEN_INDEXES:
+            return { ...state, fireGame: { ...state.fireGame, ...action.payload } };
         default:
             return state;
     }

@@ -3,7 +3,8 @@ import { useFiregameConstants } from '../../config/Games/Fire/constants.fire.con
 import { BuildingSvg } from '../SVGs/BuildingSvg';
 import { FireSvg } from '../SVGs/FireSvg';
 import { Firemen } from './Firemen';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateCurrentFallingMenIndexes } from '../../actions/fireGame.actions';
 import { FallingMan } from './FallingMan';
 
 export const FireGame = () => {
@@ -11,28 +12,24 @@ export const FireGame = () => {
         buildingDefaultHeight,
         fireDefaultHeight,
         defaultDelayBetweenFallingMen,
-        defaultMinDelayBetweenFallingMen
+        defaultMinDelayBetweenFallingMen,
+        fallingMenPositions,
+        defaultDelayBetweenTwoFallingManPositions
     } = useFiregameConstants();
     const webcamSize = useSelector(state => state.camAndWatchReducer.webcamSize);
-    const [currentFallingMenIndexes, setCurrentFallingMenIndexes] = useState([]);
+    const currentFallingMenIndexes = useSelector(state => state.camAndWatchReducer.fireGame.currentFallingMenIndexes);
+    const dispatch = useDispatch();
     const [currentDelayBetweenFallingMen, setCurrentDelayBetweenFallingMen] = useState(defaultDelayBetweenFallingMen);
-    const [fallingManIndexToRemove, setFallingManIndexToRemove] = useState(0);
     const [mustNewManPop, setMustNewManPop] = useState(false);
-    const [tooMuchMenToPopANewOne, setTooMuchMenToPopANewOne] = useState(false);
     const [numberOfPoppedFallingMen, setNumberOfPoppedFallingMen] = useState(0);
 
-    const removeIndexFromCurrentFallingMenIndexes = indexToRemove => {
-        setFallingManIndexToRemove(indexToRemove);
-    };
-
-    const popFallingMan = delayBeforeNextMan => {
-        console.log(currentFallingMenIndexes);
-        setCurrentFallingMenIndexes([...currentFallingMenIndexes, numberOfPoppedFallingMen + 1]);
+    const popFallingMan = async delayBeforeNextMan => {
+        await dispatch(updateCurrentFallingMenIndexes([...currentFallingMenIndexes, numberOfPoppedFallingMen + 1]));
         setNumberOfPoppedFallingMen(numberOfPoppedFallingMen + 1);
         setCurrentDelayBetweenFallingMen(
             delayBeforeNextMan <= defaultMinDelayBetweenFallingMen
-                ? defaultMinDelayBetweenFallingMen + Math.random() * defaultMinDelayBetweenFallingMen
-                : delayBeforeNextMan * 0.9
+                ? defaultMinDelayBetweenFallingMen + Math.random() * 2 * defaultMinDelayBetweenFallingMen
+                : delayBeforeNextMan * 0.85
         );
         setTimeout(() => {
             setMustNewManPop(true);
@@ -46,27 +43,15 @@ export const FireGame = () => {
     useEffect(() => {
         if (mustNewManPop) {
             setMustNewManPop(false);
-            if (currentFallingMenIndexes.length < 4) popFallingMan(currentDelayBetweenFallingMen);
-            else setTooMuchMenToPopANewOne(true);
+            if (currentFallingMenIndexes.length < 3) {
+                popFallingMan(currentDelayBetweenFallingMen);
+            } else {
+                setTimeout(() => {
+                    setMustNewManPop(true);
+                }, Object.keys(fallingMenPositions).length * 0.7 * defaultDelayBetweenTwoFallingManPositions);
+            }
         }
     }, [mustNewManPop]);
-
-    useEffect(() => {
-        const numberOfMenBeforeRemove = currentFallingMenIndexes.length;
-        setCurrentFallingMenIndexes(
-            currentFallingMenIndexes.filter(index => {
-                return index !== fallingManIndexToRemove;
-            })
-        );
-        if (numberOfMenBeforeRemove === 4 && tooMuchMenToPopANewOne) {
-            setTooMuchMenToPopANewOne(false);
-            setMustNewManPop(true);
-        }
-    }, [fallingManIndexToRemove]);
-
-    useEffect(() => {
-        console.log('update', currentFallingMenIndexes);
-    }, [currentFallingMenIndexes]);
 
     return (
         <>
@@ -77,13 +62,7 @@ export const FireGame = () => {
                     <FireSvg height={fireDefaultHeight} top={buildingDefaultHeight * 0.6} />
                     <Firemen />
                     {currentFallingMenIndexes.map(index => {
-                        return (
-                            <FallingMan
-                                key={index}
-                                index={index}
-                                removeFunction={removeIndexFromCurrentFallingMenIndexes}
-                            />
-                        );
+                        return <FallingMan key={index} index={index} />;
                     })}
                 </div>
             ) : null}
