@@ -4,7 +4,7 @@ export const FiremenSvg = ({ width, top, left }) => {
     return (
         <svg
             id="svg"
-            className="absElement"
+            className="horizontalCenterAsset absElement"
             style={{ top, left }}
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"

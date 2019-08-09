@@ -9,3 +9,7 @@
 .centerAsset {
     transform: translate(-50%, -50%);
 }
+
+.horizontalCenterAsset {
+    transform: translate(-50%);
+}

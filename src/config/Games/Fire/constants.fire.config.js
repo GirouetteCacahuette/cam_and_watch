@@ -10,6 +10,8 @@ export const useFiregameConstants = () => {
     const firemenDefaultWidth = webcamSize.width * 0.2;
     //firemen default height is 50,4 % of the firemen default width
     const firemenDefaultHeight = firemenDefaultWidth * 0.504;
+    //the firemen stretcher default width 50% of the firemen default width
+    const firemenStretcherDefaultWidth = firemenDefaultWidth * 0.5;
 
     // fire default height is 20% of the building default height
     const fireDefaultHeight = buildingDefaultHeight * 0.2;
@@ -28,6 +30,7 @@ export const useFiregameConstants = () => {
     const fallingMenMiddleBottomPosition =
         fallingMenTopPosition + ((fallingMenFloorPosition - fallingMenTopPosition) * 3) / 4;
     const fallingMenInterHorizontalPositionsGap = (webcamSize.width - buildingDefaultWidth) / 21;
+    const bouncePointsNames = ['bounce1', 'bounce2', 'bounce3'];
 
     const fallingMenPositions = {
         buildingWindow: { x: buildingDefaultWidth * 0.15, y: fallingMenTopPosition },
@@ -47,7 +50,10 @@ export const useFiregameConstants = () => {
             x: 3 * fallingMenInterHorizontalPositionsGap + buildingDefaultWidth,
             y: fallingMenMiddleBottomPosition
         },
-        bounce1: { x: 4 * fallingMenInterHorizontalPositionsGap + buildingDefaultWidth, y: fallingMenFloorPosition },
+        [bouncePointsNames[0]]: {
+            x: 4 * fallingMenInterHorizontalPositionsGap + buildingDefaultWidth,
+            y: fallingMenFloorPosition
+        },
         firstPartUp1: {
             x: 5 * fallingMenInterHorizontalPositionsGap + buildingDefaultWidth,
             y: fallingMenMiddleBottomPosition
@@ -73,7 +79,10 @@ export const useFiregameConstants = () => {
             x: 11 * fallingMenInterHorizontalPositionsGap + buildingDefaultWidth,
             y: fallingMenMiddleBottomPosition
         },
-        bounce2: { x: 12 * fallingMenInterHorizontalPositionsGap + buildingDefaultWidth, y: fallingMenFloorPosition },
+        [bouncePointsNames[1]]: {
+            x: 12 * fallingMenInterHorizontalPositionsGap + buildingDefaultWidth,
+            y: fallingMenFloorPosition
+        },
         secondPartUp1: {
             x: 13 * fallingMenInterHorizontalPositionsGap + buildingDefaultWidth,
             y: fallingMenMiddleBottomPosition
@@ -91,7 +100,10 @@ export const useFiregameConstants = () => {
             x: 17 * fallingMenInterHorizontalPositionsGap + buildingDefaultWidth,
             y: fallingMenMiddleBottomPosition
         },
-        bounce3: { x: 18 * fallingMenInterHorizontalPositionsGap + buildingDefaultWidth, y: fallingMenFloorPosition },
+        [bouncePointsNames[2]]: {
+            x: 18 * fallingMenInterHorizontalPositionsGap + buildingDefaultWidth,
+            y: fallingMenFloorPosition
+        },
         thirdPartUp1: {
             x: 19 * fallingMenInterHorizontalPositionsGap + buildingDefaultWidth,
             y: fallingMenMiddleBottomPosition
@@ -101,6 +113,8 @@ export const useFiregameConstants = () => {
             y: fallingMenMiddlePosition
         }
     };
+
+    const fallingMenCrashVerticalPosition = webcamSize.height - fallingManDefaultHeight / 2;
 
     const defaultDelayBetweenTwoFallingManPositions = 750;
     const timeNeededByFallingManToCrossScreen =
@@ -113,11 +127,14 @@ export const useFiregameConstants = () => {
         buildingDefaultWidth,
         firemenDefaultWidth,
         firemenDefaultHeight,
+        firemenStretcherDefaultWidth,
         fireDefaultHeight,
         fallingManDefaultWidth,
         fallingManDefaultHeight,
         followedByFiremenBodyPart,
+        bouncePointsNames,
         fallingMenPositions,
+        fallingMenCrashVerticalPosition,
         defaultDelayBetweenFallingMen,
         defaultMinDelayBetweenFallingMen,
         defaultDelayBetweenTwoFallingManPositions,
