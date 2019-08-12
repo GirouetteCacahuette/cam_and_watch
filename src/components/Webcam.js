@@ -54,6 +54,7 @@ export const Webcam = () => {
         <>
             {webcamSize.width !== null ? (
                 <video
+                    className="invisible"
                     style={{ WebkitTransform: 'scaleX(-1)', transform: 'scaleX(-1)' }}
                     id={webcamElementId}
                     autoPlay={true}

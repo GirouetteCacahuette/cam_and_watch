@@ -13,3 +13,7 @@
 .horizontalCenterAsset {
     transform: translate(-50%);
 }
+
+.invisible {
+    visibility: hidden;
+}
