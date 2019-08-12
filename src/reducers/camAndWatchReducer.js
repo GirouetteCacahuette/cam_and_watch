@@ -2,7 +2,9 @@ import {
     UPDATE_POSE,
     UPDATE_WEBCAM_SIZE,
     UPDATE_CURRENT_FALLING_MEN_INDEXES,
-    UPDATE_BOUNCES_NEEDED
+    UPDATE_BOUNCES_NEEDED,
+    UPDATE_SCORE,
+    UPDATE_MISS
 } from '../config/reduxActionsTypes';
 
 const initialState = {
@@ -14,7 +16,9 @@ const initialState = {
             bounce1: { bounceNeeded: false, bounceConfirmed: false },
             bounce2: { bounceNeeded: false, bounceConfirmed: false },
             bounce3: { bounceNeeded: false, bounceConfirmed: false }
-        }
+        },
+        score: 0,
+        miss: 0
     }
 };
 
@@ -25,6 +29,8 @@ export const camAndWatchReducer = (state = initialState, action) => {
             return { ...state, ...action.payload };
         case UPDATE_CURRENT_FALLING_MEN_INDEXES:
         case UPDATE_BOUNCES_NEEDED:
+        case UPDATE_SCORE:
+        case UPDATE_MISS:
             return { ...state, fireGame: { ...state.fireGame, ...action.payload } };
         default:
             return state;

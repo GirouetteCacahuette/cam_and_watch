@@ -6,6 +6,9 @@ import { Firemen } from './Firemen';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateCurrentFallingMenIndexes } from '../../actions/fireGame.actions';
 import { FallingMan } from './FallingMan';
+import { Score } from './Score';
+import '../../style/FireGame.css';
+import { AngelSvg } from '../SVGs/AngelSvg';
 
 export const FireGame = () => {
     const {
@@ -13,11 +16,13 @@ export const FireGame = () => {
         fireDefaultHeight,
         defaultDelayBetweenFallingMen,
         defaultMinDelayBetweenFallingMen,
+        angelsHorizontalsPositions,
         fallingMenPositions,
         defaultDelayBetweenTwoFallingManPositions
     } = useFiregameConstants();
     const webcamSize = useSelector(state => state.camAndWatchReducer.webcamSize);
     const currentFallingMenIndexes = useSelector(state => state.camAndWatchReducer.fireGame.currentFallingMenIndexes);
+    const miss = useSelector(state => state.camAndWatchReducer.fireGame.miss);
     const dispatch = useDispatch();
     const [currentDelayBetweenFallingMen, setCurrentDelayBetweenFallingMen] = useState(defaultDelayBetweenFallingMen);
     const [mustNewManPop, setMustNewManPop] = useState(false);
@@ -57,6 +62,10 @@ export const FireGame = () => {
         <>
             {!!webcamSize.width ? (
                 <div>
+                    <Score />
+                    {miss > 0 ? <AngelSvg left={angelsHorizontalsPositions[0]} /> : null}
+                    {miss > 1 ? <AngelSvg left={angelsHorizontalsPositions[1]} /> : null}
+                    {miss > 2 ? <AngelSvg left={angelsHorizontalsPositions[2]} /> : null}
                     <BuildingSvg height={buildingDefaultHeight} />
                     <FireSvg height={fireDefaultHeight} top={buildingDefaultHeight * 0.8} />
                     <FireSvg height={fireDefaultHeight} top={buildingDefaultHeight * 0.6} />

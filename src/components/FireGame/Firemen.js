@@ -4,12 +4,13 @@ import { useSelector } from 'react-redux';
 import { getKeypoint } from '../../config/Posenet/functions.posenet.config';
 import { useFiregameConstants } from '../../config/Games/Fire/constants.fire.config';
 import { useDispatch } from 'react-redux';
-import { updateBouncesNeeded } from '../../actions/fireGame.actions';
+import { updateBouncesNeeded, updateScore } from '../../actions/fireGame.actions';
 
 export const Firemen = () => {
     const posenetPose = useSelector(state => state.camAndWatchReducer.posenetPose);
     const webcamSize = useSelector(state => state.camAndWatchReducer.webcamSize);
     const bouncesNeeded = useSelector(state => state.camAndWatchReducer.fireGame.bouncesNeeded);
+    const score = useSelector(state => state.camAndWatchReducer.fireGame.score);
     const dispatch = useDispatch();
     const [firemenPosition, setFiremenPosition] = useState(null);
     const {
@@ -49,6 +50,7 @@ export const Firemen = () => {
                             [bouncePointName]: { bounceNeeded: false, bounceConfirmed: true }
                         })
                     );
+                    dispatch(updateScore(score + 1));
                 }
                 return null;
             });

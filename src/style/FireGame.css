@@ -1,0 +1,11 @@
+@font-face {
+    font-family: "Digits";
+    src: url(./fonts/digital-7.woff) format("woff"),
+        url(./fonts/digital-7.ttf) format("ttf");
+}
+
+.score {
+    font-family: "Digits", Impact, monospace;
+    color: black;
+    margin: 0;
+}

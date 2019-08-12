@@ -21,6 +21,15 @@ export const useFiregameConstants = () => {
     //falling man default height is 86,36 % of the falling man default width
     const fallingManDefaultHeight = fallingManDefaultWidth * 0.8636;
 
+    const angelDefaultHeight = webcamSize.height * 0.1;
+    const angelDefaultWidth = angelDefaultHeight;
+
+    const angelsHorizontalsPositions = [
+        webcamSize.width * 0.85 + angelDefaultWidth * 2.4,
+        webcamSize.width * 0.85 + angelDefaultWidth * 1.2,
+        webcamSize.width * 0.85
+    ];
+
     const followedByFiremenBodyPart = 'nose';
 
     const fallingMenTopPosition = webcamSize.height - buildingDefaultHeight * 0.725;
@@ -131,6 +140,9 @@ export const useFiregameConstants = () => {
         fireDefaultHeight,
         fallingManDefaultWidth,
         fallingManDefaultHeight,
+        angelDefaultHeight,
+        angelDefaultWidth,
+        angelsHorizontalsPositions,
         followedByFiremenBodyPart,
         bouncePointsNames,
         fallingMenPositions,
